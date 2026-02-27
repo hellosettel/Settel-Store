@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settel Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --warm-light: #936D4B;
+      --warm-dark: #443C2D;
+      --cream: #FAF6F1;
+      --cream-dark: #EDE6DC;
+      --text-primary: #2C2418;
+      --text-secondary: #6B5D4F;
+      --accent: #B8845C;
+      --success: #5E8C61;
+      --error: #B85C5C;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-primary);
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.25rem;
+    }
+    .subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--cream-dark);
+    }
+    .order-card {
+      background: #FFFFFF;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 10px rgba(68,60,45,0.08);
+    }
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.75rem;
+    }
+    .order-name { font-weight: 600; font-size: 1.05rem; }
+    .order-time { font-size: 0.8rem; color: var(--text-secondary); }
+    .order-detail { font-size: 0.9rem; color: var(--text-secondary); margin: 0.2rem 0; }
+    .order-items {
+      background: var(--cream);
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    .order-item-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.2rem 0;
+      font-size: 0.9rem;
+    }
+    .order-total {
+      border-top: 1px solid var(--cream-dark);
+      margin-top: 0.4rem;
+      padding-top: 0.4rem;
+      font-weight: 600;
+    }
+    .empty-state {
+      text-align: center;
+      color: var(--text-secondary);
+      padding: 2rem;
+      font-style: italic;
+    }
+    .clear-btn {
+      background: var(--error);
+      color: #FFFFFF;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .clear-btn:hover { opacity: 0.85; }
+    .info-box {
+      background: #FFFFFF;
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .info-box code {
+      background: var(--cream-dark);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Settel Admin</h1>
+  <p class="subtitle">Order management & weekly menu updates</p>
+
+  <div class="info-box">
+    <strong>Weekly Menu Updates:</strong><br>
+    Edit <code>meals.json</code> in your GitHub repo to update meals. Each entry has: <code>id</code>, <code>name</code>, <code>description</code>, <code>price</code>, <code>quantity</code>, and <code>image</code>.<br><br>
+    <strong>Photos:</strong> Drop new meal photos into the <code>images/</code> folder in your repo and reference them in meals.json.
+  </div>
+
+  <h2>Recent Orders</h2>
+  <div id="ordersList"></div>
+  <button class="clear-btn" onclick="clearOrders()">Clear All Orders</button>
+
+  <script>
+    function loadOrders() {
+      const container = document.getElementById('ordersList');
+      const orders = JSON.parse(localStorage.getItem('settel-orders') || '[]');
+
+      if (orders.length === 0) {
+        container.innerHTML = '<div class="empty-state">No orders yet.</div>';
+        return;
+      }
+
+      // Show newest first
+      const sorted = [...orders].reverse();
+
+      container.innerHTML = sorted.map((order, i) => {
+        const date = new Date(order.timestamp);
+        const timeStr = date.toLocaleDateString('en-US', {
+          weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
+        });
+
+        return `
+          <div class="order-card">
+            <div class="order-header">
+              <span class="order-name">${order.name}</span>
+              <span class="order-time">${timeStr}</span>
+            </div>
+            <div class="order-detail">📱 ${order.phone}</div>
+            <div class="order-detail">📧 ${order.email}</div>
+            <div class="order-detail">📍 ${order.address}</div>
+            ${order.notes ? `<div class="order-detail">📝 ${order.notes}</div>` : ''}
+            <div class="order-items">
+              ${order.items.map(item => `
+                <div class="order-item-row">
+                  <span>${item.name} × ${item.qty}</span>
+                  <span>$${(item.price * item.qty).toFixed(2)}</span>
+                </div>
+              `).join('')}
+              <div class="order-item-row order-total">
+                <span>Total</span>
+                <span>$${order.total.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function clearOrders() {
+      if (confirm('Are you sure you want to clear all orders?')) {
+        localStorage.removeItem('settel-orders');
+        loadOrders();
+      }
+    }
+
+    loadOrders();
+  </script>
+</body>
+</html>

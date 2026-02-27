@@ -1,0 +1,50 @@
+[
+  {
+    "id": "meal-1",
+    "name": "Spaghetti Bolognese",
+    "description": "Hearty beef and pork ragu slow-simmered with San Marzano tomatoes, tossed with spaghetti.",
+    "price": 9.99,
+    "quantity": 20,
+    "image": "images/spaghetti.jpg"
+  },
+  {
+    "id": "meal-2",
+    "name": "Chicken Enchilada Bake",
+    "description": "Shredded chicken layered with corn tortillas, roasted tomatillo salsa verde, and melted cheese.",
+    "price": 9.99,
+    "quantity": 15,
+    "image": "images/enchilada.jpg"
+  },
+  {
+    "id": "meal-3",
+    "name": "Thai Basil Stir Fry",
+    "description": "Ground pork with Thai chilies, holy basil, garlic, and a sweet soy glaze over jasmine rice.",
+    "price": 9.99,
+    "quantity": 12,
+    "image": "images/thai-basil.jpg"
+  },
+  {
+    "id": "meal-4",
+    "name": "BBQ Pulled Pork Mac & Cheese",
+    "description": "Smoked pulled pork folded into creamy sharp cheddar mac with a smoky BBQ drizzle.",
+    "price": 9.99,
+    "quantity": 18,
+    "image": "images/bbq-mac.jpg"
+  },
+  {
+    "id": "meal-5",
+    "name": "Birria Beef Stew",
+    "description": "Slow-braised beef in a rich guajillo and ancho chile consommé with hominy and cilantro.",
+    "price": 9.99,
+    "quantity": 10,
+    "image": "images/birria.jpg"
+  },
+  {
+    "id": "meal-6",
+    "name": "Hidden Veggie Mac & Cheese",
+    "description": "Kid-approved creamy mac with butternut squash and cauliflower blended right into the cheese sauce.",
+    "price": 9.99,
+    "quantity": 20,
+    "image": "images/veggie-mac.jpg"
+  }
+]
