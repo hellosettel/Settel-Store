@@ -490,8 +490,9 @@
       .header .logo-text { font-size: 1.8rem; }
       .hero { padding: 2rem 1rem; }
       .hero h2 { font-size: 1.4rem; }
-      .tab-nav { justify-content: space-between; }
-      .tab-btn { flex: 1; padding: 0.75rem 0.25rem; font-size: 0.75rem; letter-spacing: 0; }
+      .tab-nav { flex-wrap: wrap; justify-content: center; }
+      .tab-btn { flex: 0 0 33.33%; padding: 0.75rem 0.5rem; font-size: 0.82rem; letter-spacing: 0; text-align: center; }
+      .tab-btn:nth-child(4), .tab-btn:nth-child(5) { flex: 0 0 50%; }
       .meals-section { padding: 2rem 1rem; }
       .meals-grid { grid-template-columns: 1fr; }
       .cart-bar { flex-direction: column; gap: 0.75rem; text-align: center; }
