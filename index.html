@@ -485,12 +485,13 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 640px) {
-      body { overflow-x: hidden; }
+      html, body { overflow-x: hidden; }
       .header { padding: 1.25rem 1rem; }
       .header .logo-text { font-size: 1.8rem; }
       .hero { padding: 2rem 1rem; }
       .hero h2 { font-size: 1.4rem; }
-      .tab-btn { padding: 0.75rem 0.5rem; font-size: 0.8rem; letter-spacing: 0; }
+      .tab-nav { justify-content: space-between; }
+      .tab-btn { flex: 1; padding: 0.75rem 0.25rem; font-size: 0.75rem; letter-spacing: 0; }
       .meals-section { padding: 2rem 1rem; }
       .meals-grid { grid-template-columns: 1fr; }
       .cart-bar { flex-direction: column; gap: 0.75rem; text-align: center; }
